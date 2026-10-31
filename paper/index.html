@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>สรุปบทเรียน: วันนี้เราจะเรียนเรื่องอะไร? (Python Week 4)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg-subtle: #f8fafc;
+      --border: #e2e8f0;
+      --border-focus: #0f172a;
+      
+      --text-main: #0f172a;
+      --text-sub: #475569;
+      --text-muted: #94a3b8;
+      
+      --code-bg: #f8fafc;
+      --code-border: #e2e8f0;
+      
+      --accent-blue: #0284c7;
+      --accent-blue-soft: #f0f9ff;
+      --accent-green: #16a34a;
+      --accent-green-soft: #f0fdf4;
+      --accent-amber: #d97706;
+      --accent-amber-soft: #fffbeb;
+      
+      --radius: 8px;
+      --radius-sm: 4px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'IBM Plex Sans Thai', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Header */
+    header {
+      border-bottom: 1px solid var(--border);
+      background: #ffffff;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .header-content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0.9rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header-logo {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .week-tag {
+      font-size: 0.72rem;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      padding: 0.1rem 0.45rem;
+      border-radius: var(--radius-sm);
+      color: var(--text-sub);
+      font-weight: 500;
+    }
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 1.25rem;
+    }
+    nav a {
+      text-decoration: none;
+      color: var(--text-sub);
+      font-size: 0.88rem;
+      transition: color 0.15s;
+    }
+    nav a:hover {
+      color: var(--text-main);
+    }
+
+    /* Container */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+    }
+
+    /* Hero / Intro */
+    .hero {
+      margin-bottom: 3.5rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 3rem;
+    }
+    .hero-eyebrow {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent-blue);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 3.5vw, 2.75rem);
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.5px;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      font-size: 1.05rem;
+      color: var(--text-sub);
+      max-width: 720px;
+      line-height: 1.7;
+    }
+
+    /* 4 Steps Overview */
+    .roadmap {
+      margin-top: 2rem;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+    .roadmap-title {
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-sub);
+      margin-bottom: 1rem;
+    }
+    .roadmap-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 1rem;
+    }
+    .roadmap-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+    }
+    .roadmap-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 600;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-sm);
+      flex-shrink: 0;
+      color: var(--text-sub);
+    }
+    .roadmap-text h3 {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 0.15rem;
+    }
+    .roadmap-text p {
+      font-size: 0.8rem;
+      color: var(--text-sub);
+      line-height: 1.4;
+    }
+
+    /* Section Styling */
+    section {
+      margin-bottom: 4rem;
+    }
+    .section-head {
+      margin-bottom: 1.5rem;
+    }
+    .section-head h2 {
+      font-size: 1.35rem;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      color: var(--text-main);
+    }
+    .section-head p {
+      font-size: 0.92rem;
+      color: var(--text-sub);
+      margin-top: 0.25rem;
+    }
+
+    /* Clean Card Layout */
+    .card-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .clean-box {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+    }
+    .box-top-tag {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+    .tag-title {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .clean-box h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--text-main);
+    }
+
+    /* Question / Explain Box */
+    .problem-brief {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--text-main);
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius-sm);
+      margin-bottom: 1.25rem;
+    }
+    .problem-brief p {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      margin-bottom: 0.35rem;
+    }
+    .problem-brief p:last-child {
+      margin-bottom: 0;
+    }
+
+    .explain-block {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1.1rem 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    .explain-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .explain-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    .explain-list li {
+      font-size: 0.88rem;
+      color: var(--text-sub);
+      position: relative;
+      padding-left: 1.25rem;
+    }
+    .explain-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0.35rem;
+      color: var(--text-muted);
+      font-weight: bold;
+    }
+    .explain-list code, .problem-brief code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      padding: 0.1rem 0.35rem;
+      border-radius: 3px;
+      color: var(--text-main);
+    }
+
+    /* Minimal Tester */
+    .try-it {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      background: #ffffff;
+      margin-bottom: 1.25rem;
+    }
+    .try-it-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-sub);
+      margin-bottom: 0.65rem;
+    }
+    .try-row {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.65rem;
+    }
+    .try-row input {
+      flex: 1;
+      min-width: 140px;
+      padding: 0.5rem 0.75rem;
+      font-family: inherit;
+      font-size: 0.88rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      outline: none;
+    }
+    .try-row input:focus {
+      border-color: var(--border-focus);
+    }
+    .btn-test {
+      background: var(--text-main);
+      color: #ffffff;
+      border: none;
+      padding: 0.5rem 1rem;
+      font-size: 0.88rem;
+      font-weight: 500;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.15s;
+    }
+    .btn-test:hover {
+      background: #334155;
+    }
+    .try-output {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.84rem;
+      padding: 0.65rem 0.85rem;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-main);
+      min-height: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      white-space: pre-line;
+      line-height: 1.5;
+    }
+
+    /* Accordion Solution Button */
+    .solution-action {
+      margin-top: 1rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1.1rem;
+    }
+    .btn-toggle-sol {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 0.5rem 0.95rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.15s;
+    }
+    .btn-toggle-sol:hover {
+      background: var(--bg-subtle);
+      border-color: #cbd5e1;
+    }
+    .sol-wrap {
+      display: none;
+      margin-top: 1rem;
+    }
+    .sol-wrap.is-open {
+      display: block;
+      animation: fadeIn 0.2s ease-in;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Code Box */
+    .code-box {
+      background: var(--code-bg);
+      border: 1px solid var(--code-border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      margin-bottom: 0.75rem;
+    }
+    .code-box-header {
+      padding: 0.4rem 0.85rem;
+      background: #e2e8f0;
+      border-bottom: 1px solid var(--code-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-sub);
+    }
+    .btn-copy {
+      background: none;
+      border: none;
+      font-size: 0.75rem;
+      color: var(--text-sub);
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .btn-copy:hover {
+      color: var(--text-main);
+    }
+    pre {
+      padding: 0.9rem 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      line-height: 1.55;
+      color: #1e293b;
+      overflow-x: auto;
+    }
+    .k { color: #0f172a; font-weight: 600; }
+    .f { color: #0284c7; }
+    .s { color: #15803d; }
+    .n { color: #d97706; }
+    .c { color: #94a3b8; font-style: italic; }
+
+    .sol-notes {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      line-height: 1.6;
+      background: var(--bg-subtle);
+      padding: 0.85rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+    .sol-notes strong {
+      color: var(--text-main);
+    }
+
+    /* Compare Box (Before vs After) */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+      margin: 1.5rem 0;
+    }
+    .compare-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: #ffffff;
+      padding: 1.25rem;
+    }
+    .compare-card.bad {
+      border-top: 3px solid #ef4444;
+    }
+    .compare-card.good {
+      border-top: 3px solid #10b981;
+    }
+    .compare-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* Loop Visualizer Interactive */
+    .vis-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+    }
+    .vis-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .vis-meta .var-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    .vis-meta .var-len {
+      font-size: 0.85rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-sub);
+    }
+    .vis-track {
+      background: var(--bg-subtle);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1.6rem 1rem;
+      display: flex;
+      gap: 0.75rem;
+      overflow-x: auto;
+      margin-bottom: 1.25rem;
+      min-height: 110px;
+      align-items: center;
+    }
+    .vis-box {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: var(--radius-sm);
+      padding: 0.65rem 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--text-main);
+      position: relative;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+      transition: all 0.2s ease;
+    }
+    .vis-box.active {
+      border-color: var(--accent-blue);
+      background: var(--accent-blue-soft);
+      box-shadow: 0 0 0 2px var(--accent-blue);
+      transform: translateY(-2px);
+    }
+    .vis-box .idx-t {
+      position: absolute;
+      top: -10px;
+      font-size: 0.68rem;
+      color: var(--text-sub);
+      background: #ffffff;
+      border: 1px solid var(--border);
+      padding: 0 0.35rem;
+      border-radius: 2px;
+      font-weight: 500;
+    }
+    .vis-box .pointer-b {
+      position: absolute;
+      bottom: -22px;
+      font-size: 0.68rem;
+      color: var(--accent-blue);
+      font-weight: 700;
+      display: none;
+    }
+    .vis-box.active .pointer-b {
+      display: block;
+    }
+    .loop-console {
+      background: #0f172a;
+      color: #f8fafc;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      padding: 1rem;
+      border-radius: var(--radius-sm);
+      margin-bottom: 1.25rem;
+      min-height: 75px;
+    }
+    .loop-console-title {
+      font-size: 0.72rem;
+      color: #94a3b8;
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .vis-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .btn-vis {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 0.45rem 0.9rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-vis:hover {
+      border-color: var(--text-main);
+      background: var(--bg-subtle);
+    }
+    .btn-vis.primary {
+      background: var(--text-main);
+      color: #ffffff;
+      border-color: var(--text-main);
+    }
+    .btn-vis.primary:hover {
+      background: #334155;
+    }
+    .btn-vis.reset {
+      margin-left: auto;
+      color: #dc2626;
+      border-color: #fecaca;
+    }
+    .btn-vis.reset:hover {
+      background: #fef2f2;
+    }
+
+    /* Minimal Table */
+    .table-container {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow-x: auto;
+      background: #ffffff;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+    th {
+      background: var(--bg-subtle);
+      padding: 0.75rem 1rem;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-sub);
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    .td-cmd {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      color: var(--text-main);
+      font-size: 0.85rem;
+    }
+    .td-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--accent-blue);
+      background: var(--accent-blue-soft);
+      padding: 0.2rem 0.45rem;
+      border-radius: 3px;
+    }
+    .td-desc {
+      color: var(--text-sub);
+      font-size: 0.88rem;
+    }
+
+    /* Interactive Challenge Checklist */
+    .task-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      margin: 1.25rem 0;
+    }
+    .task-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.85rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: #ffffff;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.15s;
+    }
+    .task-item:hover {
+      border-color: #cbd5e1;
+    }
+    .task-item.done {
+      background: var(--bg-subtle);
+      border-color: var(--border);
+    }
+    .task-check {
+      width: 18px;
+      height: 18px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 3px;
+      flex-shrink: 0;
+      font-size: 0.75rem;
+      color: transparent;
+    }
+    .task-item.done .task-check {
+      background: var(--text-main);
+      border-color: var(--text-main);
+      color: #ffffff;
+    }
+    .task-item.done .task-title {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+    .task-title {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+    .task-desc {
+      font-size: 0.84rem;
+      color: var(--text-sub);
+      margin-top: 0.15rem;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding-top: 2rem;
+      color: var(--text-muted);
+      font-size: 0.84rem;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header>
+    <div class="header-content">
+      <div class="header-logo">
+        <span>Python Programming</span>
+        <span class="week-tag">Week 4</span>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#agenda">กำหนดการ</a></li>
+          <li><a href="#review">ทบทวน List & Input</a></li>
+          <li><a href="#forloop">เนื้อหาใหม่: For Loop</a></li>
+          <li><a href="#cheatsheet">สรุปคำสั่งสำคัญ</a></li>
+          <li><a href="#lab">โจทย์ปฏิบัติการ</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Hero: วันนี้เราจะเรียนเรื่องอะไร? -->
+    <section class="hero" id="agenda">
+      <div class="hero-eyebrow">Class Overview</div>
+      <h1>วันนี้เราจะเรียนเรื่องอะไร?</h1>
+      <p>
+        ยินดีต้อนรับสู่สัปดาห์ที่ 4 ครับ! ในสัปดาห์ที่แล้วเราได้ทำความรู้จักกับ <strong>List</strong> และคำสั่งพื้นฐานกันไปแล้ว วันนี้เราจะเริ่มจากการทดลอง <strong>เขียนโปรแกรมรับค่าจากคีย์บอร์ดจริง (Input) เข้ามาจัดเก็บลงใน List</strong> ผ่าน 2 โจทย์สถานการณ์จริง จากนั้นเราจะก้าวเข้าสู่หัวใจสำคัญของการเขียนโปรแกรมที่ขาดไม่ได้ นั่นคือ <strong>For Loop (การวนซ้ำ)</strong> เพื่อจัดการข้อมูลทีละชิ้นได้อย่างทรงพลังครับ!
+      </p>
+
+      <!-- 4 ขั้นตอนการเรียนรู้ -->
+      <div class="roadmap">
+        <div class="roadmap-title">สรุปเนื้อหาวันนี้ใน 4 ขั้นตอน</div>
+        <div class="roadmap-list">
+          <div class="roadmap-item">
+            <div class="roadmap-num">01</div>
+            <div class="roadmap-text">
+              <h3>รับค่าจริงลง List</h3>
+              <p>ระบบตะกร้าสินค้า (Shopping Cart) รับค่า 3 ชิ้นผ่าน input()</p>
+            </div>
+          </div>
+          <div class="roadmap-item">
+            <div class="roadmap-num">02</div>
+            <div class="roadmap-text">
+              <h3>คำนวณสถิติใน List</h3>
+              <p>ระบบคะแนนสอบ รวม sum(), หาเฉลี่ย, สูงสุด min/max & เช็คเกรด</p>
+            </div>
+          </div>
+          <div class="roadmap-item">
+            <div class="roadmap-num">03</div>
+            <div class="roadmap-text">
+              <h3>รู้จักกับ For Loop</h3>
+              <p>วนอ่านข้อมูลใน List ทีละชิ้นอัตโนมัติ ไม่ต้องพิมพ์ซ้ำ</p>
+            </div>
+          </div>
+          <div class="roadmap-item">
+            <div class="roadmap-num">04</div>
+            <div class="roadmap-text">
+              <h3>เครื่องมือ & โจทย์ท้าทาย</h3>
+              <p>คำสั่ง in, range(), sort() และภารกิจระบบแคชเชียร์ซูเปอร์มาร์เก็ต</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 1: โจทย์ทบทวน List & รับค่าจริง 2 ข้อ -->
+    <section id="review">
+      <div class="section-head">
+        <h2>1. โจทย์ทบทวน: List แบบรับค่าจริงจากคีย์บอร์ด (2 ข้อ)</h2>
+        <p>นำความรู้เรื่อง <code>input()</code> มาผสานกับ <code>List</code> ลองคิดและเขียนโค้ดด้วยตนเองก่อน แล้วค่อยกดเปิดดูเฉลยด้านล่างครับ</p>
+      </div>
+
+      <div class="card-stack">
+
+        <!-- กิจกรรมที่ 1: ตะกร้าสินค้า -->
+        <div class="clean-box">
+          <div class="box-top-tag">
+            <span class="tag-title">กิจกรรมที่ 1 • รับค่าข้อความลง List</span>
+            <span style="font-size: 0.78rem; color: var(--text-sub);">หัวข้อ: input() + .append() + len() + index</span>
+          </div>
+          <h3>โจทย์: ระบบรับรายการสินค้าลงตะกร้า (Shopping Cart)</h3>
+
+          <!-- คำอธิบายโจทย์ -->
+          <div class="problem-brief">
+            <p><strong>คำสั่งโจทย์:</strong></p>
+            <p>สมมุติว่าเรากำลังเขียนระบบให้ร้านค้าออนไลน์ ให้ผู้ใช้ป้อนชื่อสินค้าที่ต้องการสั่งซื้อ <strong>จำนวน 3 ชิ้น</strong> ผ่านทางคีย์บอร์ด:</p>
+            <p>1. เริ่มต้นสร้างตัวแปร List ว่าง <code>cart = []</code></p>
+            <p>2. ใช้คำสั่ง <code>input()</code> รับชื่อสินค้า 3 ครั้ง แล้วนำเข้าไปต่อท้ายใน List ด้วย <code>.append()</code></p>
+            <p>3. ทางร้านมีโปรโมชันพิเศษ! ให้ใช้คำสั่ง <code>.append("ถุงผ้า")</code> เพิ่มของแถมฟรีเข้าไปต่อท้ายตะกร้าโดยอัตโนมัติ</p>
+            <p>4. แสดงผลลัพธ์ออกทางหน้าจอ:</p>
+            <p style="padding-left: 1rem;">
+              • รายการสินค้าทั้งหมดในตะกร้า <code>print(cart)</code><br>
+              • จำนวนสินค้าทั้งหมดในตะกร้า โดยใช้ฟังก์ชัน <code>len(cart)</code><br>
+              • สินค้าชิ้นแรกสุดที่ลูกค้าเลือก (index <code>[0]</code>) และสินค้าชิ้นล่าสุด (index <code>[-1]</code>)
+            </p>
+          </div>
+
+          <!-- อธิบายวิธีคิดแบบภาษาคนทั่วไป -->
+          <div class="explain-block">
+            <div class="explain-title">💡 วิธีคิดและจุดที่ต้องระวัง:</div>
+            <ul class="explain-list">
+              <li>
+                <strong>สร้างกล่องว่าง:</strong> เริ่มด้วย <code>cart = []</code> เพื่อเตรียมกล่องไว้ใส่ข้อมูลทีละชิ้น
+              </li>
+              <li>
+                <strong>รับข้อความ:</strong> ชื่อสินค้าเป็นตัวหนังสือ (str) อยู่แล้ว จึงใช้ <code>input()</code> ได้โดยตรง ไม่ต้องครอบด้วย <code>int()</code>
+              </li>
+              <li>
+                <strong>ใส่ของลงกล่อง:</strong> เขียนได้ 2 แบบ คือ <code>item = input(...)</code> แล้วตามด้วย <code>cart.append(item)</code> หรือเขียนรวมในบรรทัดเดียวเป็น <code>cart.append(input("..."))</code>
+              </li>
+              <li>
+                <strong>ตำแหน่งแรกและท้าย:</strong> ตัวแรกคือช่อง <code>cart[0]</code> ส่วนตัวท้ายสุดใช้เลขติดลบ <code>cart[-1]</code> ได้เสมอ สะดวกมาก!
+              </li>
+            </ul>
+          </div>
+
+          <!-- ช่องทดลองเล่น Simulator -->
+          <div class="try-it">
+            <div class="try-it-label">🧪 ทดลองป้อนชื่อสินค้า 3 ชิ้นเพื่อดูผลลัพธ์จำลอง:</div>
+            <div class="try-row">
+              <input type="text" id="cartItem1" placeholder="สินค้าชิ้นที่ 1 เช่น สมุด">
+              <input type="text" id="cartItem2" placeholder="สินค้าชิ้นที่ 2 เช่น ปากกา">
+              <input type="text" id="cartItem3" placeholder="สินค้าชิ้นที่ 3 เช่น ไม้บรรทัด">
+              <button class="btn-test" onclick="testCart()">🛒 ลองบันทึกตะกร้า</button>
+            </div>
+            <div class="try-output" id="outCart">รอใส่ชื่อสินค้า...</div>
+          </div>
+
+          <!-- ปุ่มกดเปิดเฉลย -->
+          <div class="solution-action">
+            <button class="btn-toggle-sol" onclick="toggleBox('sol-cart', this)">
+              <span>▶ ดูโค้ดเฉลยและวิธีเขียน</span>
+            </button>
+
+            <div class="sol-wrap" id="sol-cart">
+              <div class="code-box">
+                <div class="code-box-header">
+                  <span>shopping_cart.py</span>
+                  <button class="btn-copy" onclick="copyCode('code-cart-src')">คัดลอกโค้ด</button>
+                </div>
+                <pre id="code-cart-src"><code><span class="c"># 1. สร้างตะกร้าเปล่ารอไว้</span>
+cart = []
+
+<span class="c"># 2. รับชื่อสินค้า 3 ชิ้นจากผู้ใช้ แล้วทยอยใส่ลงตะกร้า</span>
+item1 = <span class="f">input</span>(<span class="s">"ใส่สินค้าชิ้นที่ 1: "</span>)
+cart.append(item1)
+
+item2 = <span class="f">input</span>(<span class="s">"ใส่สินค้าชิ้นที่ 2: "</span>)
+cart.append(item2)
+
+item3 = <span class="f">input</span>(<span class="s">"ใส่สินค้าชิ้นที่ 3: "</span>)
+cart.append(item3)
+
+<span class="c"># 3. แถมของพิเศษฟรีต่อท้ายตะกร้า</span>
+cart.append(<span class="s">"ถุงผ้า"</span>)
+
+<span class="c"># 4. แสดงผลลัพธ์</span>
+<span class="f">print</span>(<span class="s">"--- สรุปตะกร้าสินค้า ---"</span>)
+<span class="f">print</span>(<span class="s">f"สินค้าทั้งหมด: {cart}"</span>)
+<span class="f">print</span>(<span class="s">f"จำนวนของในตะกร้า: {len(cart)} ชิ้น"</span>)
+<span class="f">print</span>(<span class="s">f"ชิ้นแรกที่เลือก: {cart[0]}"</span>)
+<span class="f">print</span>(<span class="s">f"ชิ้นสุดท้าย (ของแถม): {cart[-1]}"</span>)</code></pre>
+              </div>
+
+              <div class="sol-notes">
+                <strong>คำอธิบายทีละขั้นตอน:</strong><br>
+                • บรรทัดที่ 2: สร้าง <code>cart = []</code> เป็น List เปล่า<br>
+                • บรรทัดที่ 5-12: แต่ละรอบรับค่าจาก <code>input()</code> แล้วใช้ <code>cart.append(...)</code> ยัดของเข้าท้ายตะกร้าทีละตัว<br>
+                • บรรทัดที่ 15: ใช้ <code>cart.append("ถุงผ้า")</code> เพื่อเพิ่มของแถมลงท้ายตะกร้าอัตโนมัติ ทำให้ตอนนี้ใน List มีของทั้งหมด 4 ชิ้น<br>
+                • บรรทัดที่ 20-22: ดึงข้อมูลออกมาโชว์ โดย <code>len(cart)</code> จะได้เลข <code>4</code>, <code>cart[0]</code> คือชิ้นแรก และ <code>cart[-1]</code> คือถุงผ้า
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- กิจกรรมที่ 2: คำนวณคะแนนสอบ -->
+        <div class="clean-box">
+          <div class="box-top-tag">
+            <span class="tag-title">กิจกรรมที่ 2 • รับค่าตัวเลข + คำนวณใน List</span>
+            <span style="font-size: 0.78rem; color: var(--text-sub);">หัวข้อ: int(input()) + sum() + len() + if-else</span>
+          </div>
+          <h3>โจทย์: ระบบบันทึกคะแนนสอบและตัดเกรด (Score Tracker)</h3>
+
+          <!-- คำอธิบายโจทย์ -->
+          <div class="problem-brief">
+            <p><strong>คำสั่งโจทย์:</strong></p>
+            <p>คุณครูต้องการให้โปรแกรมรับ <strong>คะแนนสอบเก็บคะแนน 3 ครั้ง</strong> ของนักเรียน (คะแนนเต็ม 100 คะแนนต่อครั้ง):</p>
+            <p>1. รับคะแนนสอบ 3 ครั้ง โดยต้องแปลงข้อมูลเป็นตัวเลขจำนวนเต็มด้วย <code>int(input())</code></p>
+            <p>2. นำคะแนนทั้ง 3 ค่าเก็บลงใน List ชื่อ <code>scores</code></p>
+            <p>3. คำนวณหา:</p>
+            <p style="padding-left: 1rem;">
+              • คะแนนรวมทั้งหมด โดยใช้คำสั่ง <code>sum(scores)</code><br>
+              • คะแนนเฉลี่ย โดยเอาผลรวมหารด้วยจำนวนครั้ง <code>sum(scores) / len(scores)</code><br>
+              • คะแนนที่ทำได้สูงสุด <code>max(scores)</code> และต่ำสุด <code>min(scores)</code>
+            </p>
+            <p>4. <strong>ตรวจสอบเงื่อนไขผ่านเกณฑ์:</strong></p>
+            <p style="padding-left: 1rem;">
+              • ถ้าคะแนนเฉลี่ย <strong>ตั้งแต่ 50 คะแนนขึ้นไป</strong> (&ge; 50) ให้พิมพ์: <code>"ผลการเรียน: ผ่านเกณฑ์ ยินดีด้วยครับ! 🎉"</code><br>
+              • ถ้าคะแนนเฉลี่ย <strong>น้อยกว่า 50 คะแนน</strong> ให้พิมพ์: <code>"ผลการเรียน: ไม่ผ่านเกณฑ์ พยายามใหม่อีกนิดนะ ✌️"</code>
+            </p>
+          </div>
+
+          <!-- อธิบายวิธีคิดแบบภาษาคนทั่วไป -->
+          <div class="explain-block">
+            <div class="explain-title">💡 วิธีคิดและจุดที่ต้องระวัง:</div>
+            <ul class="explain-list">
+              <li>
+                <strong>ต้องครอบ <code>int()</code> เสมอ:</strong> ถ้าไม่ครอบ <code>int(input())</code> คอมพิวเตอร์จะมองคะแนนเป็นข้อความ เช่น <code>"80"</code> ซึ่งจะเอาไปบวกกันไม่ได้!
+              </li>
+              <li>
+                <strong>ฟังก์ชันวิเศษของ Python:</strong> Python มีคำสั่งสำเร็จรูปสำหรับ List ตัวเลขให้ใช้ได้เลย ได้แก่ <code>sum()</code> (หาผลรวม), <code>max()</code> (หาค่ามากสุด), และ <code>min()</code> (หาค่าน้อยสุด)
+              </li>
+              <li>
+                <strong>คำนวณค่าเฉลี่ย:</strong> ค่าเฉลี่ย = ผลรวม &divide; จำนวนชิ้น นั่นคือ <code>sum(scores) / len(scores)</code>
+              </li>
+            </ul>
+          </div>
+
+          <!-- ช่องทดลองเล่น Simulator -->
+          <div class="try-it">
+            <div class="try-it-label">🧪 ทดลองกรอกคะแนนสอบ 3 ครั้ง:</div>
+            <div class="try-row">
+              <input type="number" id="sc1" placeholder="คะแนนครั้งที่ 1 (เช่น 75)">
+              <input type="number" id="sc2" placeholder="คะแนนครั้งที่ 2 (เช่น 40)">
+              <input type="number" id="sc3" placeholder="คะแนนครั้งที่ 3 (เช่น 95)">
+              <button class="btn-test" onclick="testScores()">📊 คำนวณคะแนนและตัดเกรด</button>
+            </div>
+            <div class="try-output" id="outScores">รอใส่คะแนน...</div>
+          </div>
+
+          <!-- ปุ่มกดเปิดเฉลย -->
+          <div class="solution-action">
+            <button class="btn-toggle-sol" onclick="toggleBox('sol-scores', this)">
+              <span>▶ ดูโค้ดเฉลยและวิธีเขียน</span>
+            </button>
+
+            <div class="sol-wrap" id="sol-scores">
+              <div class="code-box">
+                <div class="code-box-header">
+                  <span>score_tracker.py</span>
+                  <button class="btn-copy" onclick="copyCode('code-scores-src')">คัดลอกโค้ด</button>
+                </div>
+                <pre id="code-scores-src"><code><span class="c"># 1. รับคะแนนสอบ 3 ครั้ง แปลงเป็นตัวเลขจำนวนเต็ม</span>
+s1 = <span class="f">int</span>(<span class="f">input</span>(<span class="s">"กรอกคะแนนครั้งที่ 1: "</span>))
+s2 = <span class="f">int</span>(<span class="f">input</span>(<span class="s">"กรอกคะแนนครั้งที่ 2: "</span>))
+s3 = <span class="f">int</span>(<span class="f">input</span>(<span class="s">"กรอกคะแนนครั้งที่ 3: "</span>))
+
+<span class="c"># 2. นำคะแนนทั้งหมดมารวบรวมไว้ใน List</span>
+scores = [s1, s2, s3]
+
+<span class="c"># 3. คำนวณค่าสถิติต่างๆ</span>
+total = <span class="f">sum</span>(scores)
+count = <span class="f">len</span>(scores)
+average = total / count
+
+<span class="f">print</span>(<span class="s">"--- ผลสรุปคะแนนสอบ ---"</span>)
+<span class="f">print</span>(<span class="s">f"คะแนนทั้งหมด: {scores}"</span>)
+<span class="f">print</span>(<span class="s">f"คะแนนรวม: {total} คะแนน"</span>)
+<span class="f">print</span>(<span class="s">f"คะแนนเฉลี่ย: {average:.2f} คะแนน"</span>)
+<span class="f">print</span>(<span class="s">f"คะแนนสูงสุด: {max(scores)} | ต่ำสุด: {min(scores)}"</span>)
+
+<span class="c"># 4. เช็คเงื่อนไขผ่านเกณฑ์</span>
+<span class="k">if</span> average &gt;= <span class="n">50</span>:
+    <span class="f">print</span>(<span class="s">"ผลการเรียน: ผ่านเกณฑ์ ยินดีด้วยครับ! 🎉"</span>)
+<span class="k">else</span>:
+    <span class="f">print</span>(<span class="s">"ผลการเรียน: ไม่ผ่านเกณฑ์ พยายามใหม่อีกนิดนะ ✌️"</span>)</code></pre>
+              </div>
+
+              <div class="sol-notes">
+                <strong>คำอธิบายทีละขั้นตอน:</strong><br>
+                • บรรทัดที่ 2-4: ใช้ <code>int(input(...))</code> รับค่าและแปลงเป็นตัวเลขเพื่อนำไปคำนวณคณิตศาสตร์ได้<br>
+                • บรรทัดที่ 7: รวมคะแนนทั้งหมดเป็น List ด้วยวิธีตรงไปตรงมา <code>scores = [s1, s2, s3]</code><br>
+                • บรรทัดที่ 10-12: ใช้ <code>sum(scores)</code> หาผลรวม และหารด้วย <code>len(scores)</code> (คือ 3) ได้ค่าเฉลี่ย<br>
+                • บรรทัดที่ 17: ใช้ <code>{average:.2f}</code> เพื่อปัดเศษทศนิยมให้แสดงเพียง 2 ตำแหน่งอย่างสวยงาม<br>
+                • บรรทัดที่ 21-24: ใช้ <code>if average &gt;= 50:</code> เพื่อเลือกว่าจะแจ้งว่าผ่านหรือสอบตก
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Section 2: คัดเนื้อหา Python ใหม่ (For Loop) -->
+    <section id="forloop">
+      <div class="section-head">
+        <h2>2. เข้าสู่เนื้อหาใหม่: รู้จักกับ For Loop (การวนซ้ำใน List)</h2>
+        <p>หากเรามีข้อมูล 100 ชิ้น เราคงไม่สามารถเขียน <code>print(cart[0])</code>, <code>print(cart[1])</code> ไปจนถึง 99 ได้ นั่นคือเหตุผลที่เราต้องมี <strong>For Loop</strong></p>
+      </div>
+
+      <!-- เปรียบเทียบ Before vs After -->
+      <div class="compare-grid">
+        <div class="compare-card bad">
+          <div class="compare-title">❌ แบบเดิม (เหนื่อยและไม่ยืดหยุ่น)</div>
+          <p style="font-size: 0.85rem; color: var(--text-sub); margin-bottom: 0.5rem;">ต้องพิมพ์คำสั่งเดิมซ้ำๆ และถ้าจำนวนของเปลี่ยนโค้ดจะพังทันที:</p>
+          <pre style="background: #fff5f5; border: 1px solid #fed7d7;"><code>fruits = [<span class="s">"แอปเปิ้ล"</span>, <span class="s">"กล้วย"</span>, <span class="s">"ส้ม"</span>]
+
+<span class="f">print</span>(fruits[<span class="n">0</span>])
+<span class="f">print</span>(fruits[<span class="n">1</span>])
+<span class="f">print</span>(fruits[<span class="n">2</span>])</code></pre>
+        </div>
+
+        <div class="compare-card good">
+          <div class="compare-title">✅ แบบใหม่ (ใช้ For Loop ฉลาดและสั้น)</div>
+          <p style="font-size: 0.85rem; color: var(--text-sub); margin-bottom: 0.5rem;">เขียนแค่ 2 บรรทัด มีข้อมูลกี่พันชิ้นคอมพิวเตอร์ก็หยิบมาทำทีละตัวจนครบ:</p>
+          <pre style="background: #f0fdf4; border: 1px solid #bbf7d0;"><code>fruits = [<span class="s">"แอปเปิ้ล"</span>, <span class="s">"กล้วย"</span>, <span class="s">"ส้ม"</span>]
+
+<span class="k">for</span> item <span class="k">in</span> fruits:
+    <span class="f">print</span>(item)</code></pre>
+        </div>
+      </div>
+
+      <!-- อธิบายโครงสร้างของ For Loop -->
+      <div class="clean-box" style="margin-top: 1.5rem;">
+        <div class="box-top-tag">
+          <span class="tag-title">โครงสร้างไวยากรณ์ (Syntax)</span>
+        </div>
+        <h3>หลักการทำงานของ For Loop ที่ต้องจำ</h3>
+        
+        <div class="problem-brief" style="border-left-color: var(--accent-blue);">
+          <p style="font-family: 'JetBrains Mono', monospace; font-size: 1.05rem; font-weight: 600;">
+            <span class="k">for</span> <span style="color: #d97706;">ตัวแปรชั่วคราว</span> <span class="k">in</span> <span style="color: #0284c7;">ตัวแปรList</span>:
+          </p>
+          <p style="font-family: 'JetBrains Mono', monospace; padding-left: 2rem; color: #475569;">
+            คำสั่งที่ต้องการให้ทำซ้ำในแต่ละรอบ
+          </p>
+        </div>
+
+        <div class="explain-block" style="margin-bottom: 0;">
+          <div class="explain-title">🔍 เจาะลึกการทำงานแบบมองเห็นภาพ:</div>
+          <ul class="explain-list">
+            <li>
+              <strong>รอบที่ 1:</strong> คอมพิวเตอร์จะหยิบของชิ้นแรก <code>"แอปเปิ้ล"</code> มาใส่ในตัวแปร <code>item</code> แล้วเข้าไปทำคำสั่งด้านใน คือ <code>print(item)</code>
+            </li>
+            <li>
+              <strong>รอบที่ 2:</strong> หยิบของชิ้นถัดไป <code>"กล้วย"</code> มาแทนที่ใน <code>item</code> แล้วพิมพ์ออกมา
+            </li>
+            <li>
+              <strong>รอบที่ 3:</strong> หยิบของชิ้นสุดท้าย <code>"ส้ม"</code> มาแทนที่ใน <code>item</code> แล้วพิมพ์ออกมา
+            </li>
+            <li>
+              <strong>จบลูป:</strong> เมื่อของในกล่องหมด คอมพิวเตอร์จะหยุดวนซ้ำโดยอัตโนมัติ!
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- เครื่องมือจำลอง Step-by-Step Loop Visualizer -->
+      <div class="vis-card" style="margin-top: 2rem;">
+        <div class="vis-meta">
+          <div class="var-name">จำลองคำสั่ง: <code>for fruit in basket:</code></div>
+          <div class="var-len">รอบที่: <strong id="loopRound">-</strong> / 4</div>
+        </div>
+
+        <!-- รางแสดงผลไม้ -->
+        <div class="vis-track" id="loopTrack">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- หน้าจอ Terminal จำลอง -->
+        <div class="loop-console-title">🖥️ คอนโซลแสดงผลลัพธ์ (Output):</div>
+        <div class="loop-console" id="loopConsole">
+          คลิกปุ่ม "▶ ก้าวต่อไป (Next Step)" ด้านล่างเพื่อดูการวนลูปทีละรอบ...
+        </div>
+
+        <!-- ปุ่มควบคุม -->
+        <div class="vis-buttons">
+          <button class="btn-vis primary" onclick="stepLoop()">▶ ก้าวต่อไป (Next Step)</button>
+          <button class="btn-vis" onclick="runAutoLoop()">⏩ เล่นอัตโนมัติ (Auto Run)</button>
+          <button class="btn-vis reset" onclick="resetLoop()">🔄 รีเซ็ตการทำงาน</button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Section 3: สรุปคำสั่งสำคัญ Cheatsheet -->
+    <section id="cheatsheet">
+      <div class="section-head">
+        <h2>3. สรุปคำสั่ง For Loop & ฟังก์ชันเด็ดสำหรับ List</h2>
+        <p>ตารางสรุปคำสั่งที่ใช้บ่อยที่สุดในการทำงานจริง พร้อมตัวอย่างโค้ดและหน้าที่</p>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 25%;">คำสั่ง / รูปแบบ</th>
+              <th style="width: 32%;">หน้าที่การทำงาน</th>
+              <th style="width: 25%;">ตัวอย่างโค้ด</th>
+              <th style="width: 18%;">ผลลัพธ์</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="td-cmd">for x in list:</span></td>
+              <td class="td-desc">วนอ่านสมาชิกใน List ทีละตัวตั้งแต่ตัวแรกจนถึงตัวสุดท้าย</td>
+              <td><span class="td-code">for name in users:</span></td>
+              <td class="td-desc">ได้ name ทีละคน</td>
+            </tr>
+            <tr>
+              <td><span class="td-cmd">for i in range(n):</span></td>
+              <td class="td-desc">วนทำงานซ้ำเป็นจำนวน <code>n</code> รอบ (เช่น รับค่า 5 ครั้ง)</td>
+              <td><span class="td-code">for i in range(3):</span></td>
+              <td class="td-desc">ทำซ้ำ 3 รอบ (i=0,1,2)</td>
+            </tr>
+            <tr>
+              <td><span class="td-cmd">item in list</span></td>
+              <td class="td-desc">ตรวจสอบว่ามีของนี้อยู่ใน List หรือไม่ (ให้ค่า True / False)</td>
+              <td><span class="td-code">"apple" in cart</span></td>
+              <td class="td-desc">ได้ True ถ้ามี</td>
+            </tr>
+            <tr>
+              <td><span class="td-cmd">sum()</span></td>
+              <td class="td-desc">หาผลรวมตัวเลขทั้งหมดใน List</td>
+              <td><span class="td-code">sum([10, 20, 30])</span></td>
+              <td class="td-desc">ได้ 60</td>
+            </tr>
+            <tr>
+              <td><span class="td-cmd">max() / min()</span></td>
+              <td class="td-desc">หาค่าที่มากที่สุด และน้อยที่สุดใน List</td>
+              <td><span class="td-code">max(scores)</span></td>
+              <td class="td-desc">ได้คะแนนสูงสุด</td>
+            </tr>
+            <tr>
+              <td><span class="td-cmd">.sort()</span></td>
+              <td class="td-desc">จัดเรียงข้อมูลใน List จากน้อยไปหามาก (หรือ ก-ฮ)</td>
+              <td><span class="td-code">scores.sort()</span></td>
+              <td class="td-desc">ข้อมูลถูกเรียงลำดับ</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section 4: โจทย์ปฏิบัติการท้ายคาบ (Lab Challenge) -->
+    <section id="lab">
+      <div class="section-head">
+        <h2>4. แบบฝึกหัดท้ายคาบ: แคชเชียร์ซูเปอร์มาร์เก็ต (Supermarket Lab)</h2>
+        <p>เปิดโปรแกรมเขียนโค้ดจริง แล้วพิชิต 5 ด่านประจำสัปดาห์ (คลิกเพื่อติ๊กถูกเมื่อทำแต่ละด่านเสร็จ)</p>
+      </div>
+
+      <div class="clean-box">
+        <div class="box-top-tag">
+          <span class="tag-title">ภารกิจประจำสัปดาห์ที่ 4</span>
+          <span style="font-size: 0.78rem; color: var(--text-sub);">5 ขั้นตอน</span>
+        </div>
+        <h3>ภารกิจระบบแคชเชียร์คิดเงินซูเปอร์มาร์เก็ต</h3>
+
+        <div class="task-list">
+          <div class="task-item" onclick="toggleTask(this)">
+            <div class="task-check">✓</div>
+            <div>
+              <div class="task-title">ด่านที่ 1: สร้าง List ราคาสินค้าในตะกร้า</div>
+              <div class="task-desc">สร้างตัวแปร List ชื่อ <code>prices = [45, 120, 80, 25, 200]</code> บรรจุราคาสินค้า 5 ชิ้น</div>
+            </div>
+          </div>
+
+          <div class="task-item" onclick="toggleTask(this)">
+            <div class="task-check">✓</div>
+            <div>
+              <div class="task-title">ด่านที่ 2: ใช้ For Loop พิมพ์ราคาสินค้าทีละรายการ</div>
+              <div class="task-desc">เขียน For Loop วนอ่านค่า <code>price</code> ใน <code>prices</code> แล้วพิมพ์ข้อความว่า <code>"สินค้าราคา: ... บาท"</code> ออกมาทีละบรรทัด</div>
+            </div>
+          </div>
+
+          <div class="task-item" onclick="toggleTask(this)">
+            <div class="task-check">✓</div>
+            <div>
+              <div class="task-title">ด่านที่ 3: คำนวณยอดเงินรวมทั้งหมด</div>
+              <div class="task-desc">ใช้คำสั่ง <code>sum(prices)</code> เพื่อหายอดเงินรวมทั้งหมดที่ลูกค้าต้องจ่าย แล้วพิมพ์ออกมาทางหน้าจอ</div>
+            </div>
+          </div>
+
+          <div class="task-item" onclick="toggleTask(this)">
+            <div class="task-check">✓</div>
+            <div>
+              <div class="task-title">ด่านที่ 4: หาสินค้าที่แพงที่สุดและถูกที่สุด</div>
+              <div class="task-desc">ใช้ฟังก์ชัน <code>max(prices)</code> และ <code>min(prices)</code> เพื่อหาสินค้าชิ้นที่แพงสุดและถูกสุดในบิลนี้</div>
+            </div>
+          </div>
+
+          <div class="task-item" onclick="toggleTask(this)">
+            <div class="task-check">✓</div>
+            <div>
+              <div class="task-title">ด่านที่ 5 (โบนัส): ตรวจสอบหาสินค้าพรีเมียม (ราคาเกิน 100 บาท)</div>
+              <div class="task-desc">ใช้ For Loop ร่วมกับ <code>if price &gt; 100:</code> เพื่อนับดูว่ามีสินค้ากี่ชิ้นที่ราคาเกิน 100 บาท</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- เฉลยของแบบฝึกหัด -->
+        <div class="solution-action">
+          <button class="btn-toggle-sol" onclick="toggleBox('sol-supermarket', this)">
+            <span>▶ ดูเฉลยแนวทางโค้ดแคชเชียร์ซูเปอร์มาร์เก็ต</span>
+          </button>
+
+          <div class="sol-wrap" id="sol-supermarket">
+            <div class="code-box">
+              <div class="code-box-header">
+                <span>supermarket_solution.py</span>
+                <button class="btn-copy" onclick="copyCode('code-super-src')">คัดลอกโค้ด</button>
+              </div>
+              <pre id="code-super-src"><code><span class="c"># ด่านที่ 1: สร้าง List ราคาสินค้า 5 ชิ้น</span>
+prices = [<span class="n">45</span>, <span class="n">120</span>, <span class="n">80</span>, <span class="n">25</span>, <span class="n">200</span>]
+
+<span class="c"># ด่านที่ 2: วนพิมพ์ราคาสินค้าแต่ละชิ้นด้วย For Loop</span>
+<span class="f">print</span>(<span class="s">"--- รายการสินค้าในบิล ---"</span>)
+<span class="k">for</span> p <span class="k">in</span> prices:
+    <span class="f">print</span>(<span class="s">f"สินค้าราคา: {p} บาท"</span>)
+
+<span class="c"># ด่านที่ 3: รวมเงินทั้งหมด</span>
+total = <span class="f">sum</span>(prices)
+<span class="f">print</span>(<span class="s">f"\nยอดรวมทั้งหมด: {total} บาท"</span>)
+
+<span class="c"># ด่านที่ 4: สินค้าแพงสุด และ ถูกสุด</span>
+<span class="f">print</span>(<span class="s">f"แพงที่สุดในบิล: {max(prices)} บาท"</span>)
+<span class="f">print</span>(<span class="s">f"ถูกที่สุดในบิล: {min(prices)} บาท"</span>)
+
+<span class="c"># ด่านที่ 5 (โบนัส): นับสินค้าที่ราคาเกิน 100 บาท</span>
+expensive_count = <span class="n">0</span>
+<span class="k">for</span> p <span class="k">in</span> prices:
+    <span class="k">if</span> p &gt; <span class="n">100</span>:
+        expensive_count = expensive_count + <span class="n">1</span>
+
+<span class="f">print</span>(<span class="s">f"จำนวนสินค้าพรีเมียม (ราคาเกิน 100 บาท): {expensive_count} ชิ้น"</span>)</code></pre>
+            </div>
+
+            <div class="sol-notes">
+              <strong>ข้อคิดสำคัญของด่านที่ 5:</strong><br>
+              เราสร้างตัวแปรตัวนับ <code>expensive_count = 0</code> ไว้ก่อนเริ่มลูป จากนั้นเมื่อ For Loop วนไปเจอสินค้าตัวไหนที่เข้าเงื่อนไข <code>p &gt; 100</code> เราก็เพิ่มค่าขึ้นทีละ 1 ด้วย <code>expensive_count = expensive_count + 1</code> (หรือเขียนย่อว่า <code>+= 1</code>) นี่คือเทคนิคพื้นฐานที่ใช้บ่อยมากๆ ในการเขียนโปรแกรมจริงครับ!
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div>Python Programming Course • เอกสารประกอบการสอนสัปดาห์ที่ 4</div>
+      <div>Minimal & Clean Learning Materials</div>
+    </footer>
+
+  </main>
+
+  <script>
+    // --- 1. Accordion Toggle Helper ---
+    function toggleBox(boxId, btn) {
+      const box = document.getElementById(boxId);
+      const isOpen = box.classList.toggle('is-open');
+      const arrow = isOpen ? '▼' : '▶';
+      const label = isOpen ? 'ซ่อนเฉลยและวิธีเขียน' : 'ดูโค้ดเฉลยและวิธีเขียน';
+      btn.querySelector('span').textContent = `${arrow} ${label}`;
+    }
+
+    // --- 2. Simulator: Shopping Cart ---
+    function testCart() {
+      const i1 = document.getElementById('cartItem1').value.trim();
+      const i2 = document.getElementById('cartItem2').value.trim();
+      const i3 = document.getElementById('cartItem3').value.trim();
+      const out = document.getElementById('outCart');
+
+      if (!i1 || !i2 || !i3) {
+        out.textContent = '⚠️ กรุณากรอกชื่อสินค้าให้ครบทั้ง 3 ช่องก่อนครับ';
+        out.style.color = '#dc2626';
+        return;
+      }
+
+      out.style.color = '#0f172a';
+      const cart = [i1, i2, i3];
+      cart.push('ถุงผ้า'); // แถมฟรีอัตโนมัติ
+
+      out.textContent = 
+`--- สรุปตะกร้าสินค้าจำลอง ---
+>> รายการใน cart: ["${cart[0]}", "${cart[1]}", "${cart[2]}", "${cart[3]}"]
+>> จำนวนของในตะกร้า len(cart): ${cart.length} ชิ้น
+>> ชิ้นแรก cart[0]: "${cart[0]}"
+>> ชิ้นสุดท้าย cart[-1]: "${cart[cart.length - 1]}" (ของแถมพิเศษ!)`;
+    }
+
+    // --- 3. Simulator: Score Tracker ---
+    function testScores() {
+      const v1 = document.getElementById('sc1').value.trim();
+      const v2 = document.getElementById('sc2').value.trim();
+      const v3 = document.getElementById('sc3').value.trim();
+      const out = document.getElementById('outScores');
+
+      if (v1 === '' || v2 === '' || v3 === '') {
+        out.textContent = '⚠️ กรุณากรอกคะแนนให้ครบทั้ง 3 ช่องก่อนครับ';
+        out.style.color = '#dc2626';
+        return;
+      }
+
+      const s1 = parseInt(v1, 10);
+      const s2 = parseInt(v2, 10);
+      const s3 = parseInt(v3, 10);
+      const scores = [s1, s2, s3];
+      const total = s1 + s2 + s3;
+      const avg = total / 3;
+      const maxScore = Math.max(...scores);
+      const minScore = Math.min(...scores);
+      const isPassed = avg >= 50;
+
+      out.style.color = '#0f172a';
+      out.textContent = 
+`--- ผลสรุปคะแนนสอบจำลอง ---
+>> รายการคะแนน: [${scores.join(', ')}]
+>> คะแนนรวมทั้งหมด: ${total} คะแนน
+>> คะแนนเฉลี่ย: ${avg.toFixed(2)} คะแนน (สูงสุด: ${maxScore} | ต่ำสุด: ${minScore})
+>> ผลการประเมิน: ${isPassed ? '🎉 ผ่านเกณฑ์ ยินดีด้วยครับ!' : '✌️ ไม่ผ่านเกณฑ์ พยายามใหม่อีกนิดนะ'}`;
+    }
+
+    // --- 4. Loop Visualizer Interactive ---
+    const fruitsBasket = [
+      { name: "แอปเปิ้ล", emoji: "🍎" },
+      { name: "กล้วย", emoji: "🍌" },
+      { name: "ส้ม", emoji: "🍊" },
+      { name: "องุ่น", emoji: "🍇" }
+    ];
+    let currentStep = -1;
+    let autoInterval = null;
+
+    const loopTrack = document.getElementById('loopTrack');
+    const loopRound = document.getElementById('loopRound');
+    const loopConsole = document.getElementById('loopConsole');
+
+    function initLoopVisualizer() {
+      loopTrack.innerHTML = '';
+      fruitsBasket.forEach((f, idx) => {
+        const box = document.createElement('div');
+        box.className = 'vis-box';
+        box.id = `vis-fruit-${idx}`;
+        box.innerHTML = `
+          <span class="idx-t">[${idx}]</span>
+          <span>${f.emoji} "${f.name}"</span>
+          <span class="pointer-b">▲ item</span>
+        `;
+        loopTrack.appendChild(box);
+      });
+    }
+
+    function stepLoop() {
+      if (currentStep >= fruitsBasket.length - 1) {
+        loopConsole.innerHTML += `<br><span style="color:#22c55e;">✔ จบลูปการทำงาน! วนอ่านครบทุกตัวใน List เรียบร้อยแล้ว</span>`;
+        if (autoInterval) {
+          clearInterval(autoInterval);
+          autoInterval = null;
+        }
+        return;
+      }
+
+      currentStep++;
+      loopRound.textContent = currentStep + 1;
+
+      // Update UI boxes
+      fruitsBasket.forEach((_, idx) => {
+        const el = document.getElementById(`vis-fruit-${idx}`);
+        if (idx === currentStep) {
+          el.classList.add('active');
+        } else {
+          el.classList.remove('active');
+        }
+      });
+
+      // Update Console Log
+      const cur = fruitsBasket[currentStep];
+      const logLine = `รอบที่ ${currentStep + 1}: หยิบ item = "${cur.name}" &rarr; print: ${cur.emoji} ${cur.name}`;
+      if (currentStep === 0) {
+        loopConsole.innerHTML = `<div>${logLine}</div>`;
+      } else {
+        loopConsole.innerHTML += `<div>${logLine}</div>`;
+      }
+    }
+
+    function runAutoLoop() {
+      if (autoInterval) return;
+      if (currentStep >= fruitsBasket.length - 1) {
+        resetLoop();
+      }
+      stepLoop();
+      autoInterval = setInterval(() => {
+        if (currentStep >= fruitsBasket.length - 1) {
+          stepLoop();
+          clearInterval(autoInterval);
+          autoInterval = null;
+        } else {
+          stepLoop();
+        }
+      }, 900);
+    }
+
+    function resetLoop() {
+      if (autoInterval) {
+        clearInterval(autoInterval);
+        autoInterval = null;
+      }
+      currentStep = -1;
+      loopRound.textContent = '-';
+      fruitsBasket.forEach((_, idx) => {
+        const el = document.getElementById(`vis-fruit-${idx}`);
+        if (el) el.classList.remove('active');
+      });
+      loopConsole.innerHTML = 'คลิกปุ่ม "▶ ก้าวต่อไป (Next Step)" ด้านล่างเพื่อดูการวนลูปทีละรอบ...';
+    }
+
+    initLoopVisualizer();
+
+    // --- 5. Interactive Checklist ---
+    function toggleTask(row) {
+      row.classList.toggle('done');
+    }
+
+    // --- 6. Copy Code Helper ---
+    function copyCode(id) {
+      const code = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        alert('คัดลอกโค้ดเรียบร้อยแล้ว!');
+      });
+    }
+  </script>
+</body>
+</html>
